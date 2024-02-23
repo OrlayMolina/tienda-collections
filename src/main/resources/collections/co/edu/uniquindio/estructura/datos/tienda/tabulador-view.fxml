@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collections.co.edu.uniquindio.estructura.datos.tienda.viewController.TabuladorViewController">
+    <children>
+        <TabPane fx:id="tabPane" prefHeight="513.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Clientes">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="771.0">
+
+                            <children>
+                                <SplitPane layoutX="3.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="482.0" prefWidth="792.0">
+                                    <items>
+                                        <fx:include source="cliente-view.fxml" />
+                                    </items>
+                                </SplitPane>
+                            </children>
+
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            <Tab text="Ventas">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="771.0">
+
+                        <children>
+                            <SplitPane layoutX="3.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="482.0" prefWidth="792.0">
+                                <items>
+                                    <fx:include source="venta-view.fxml" />
+                                </items>
+                            </SplitPane>
+                        </children>
+
+                    </AnchorPane>
+                </content>
+            </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>
