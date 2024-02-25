@@ -1,14 +1,12 @@
 package collections.co.edu.uniquindio.estructura.datos.tienda.models;
 
+import java.util.ArrayList;
+
 public class DetalleVenta {
 
+    private Producto producto;
     private Integer cantidad;
     private Integer subtotal;
-
-    public DetalleVenta(Integer cantidad, Integer subtotal) {
-        this.cantidad = cantidad;
-        this.subtotal = subtotal;
-    }
 
     public DetalleVenta()
     {
@@ -29,5 +27,13 @@ public class DetalleVenta {
 
     public void setSubtotal(Integer subtotal) {
         this.subtotal = subtotal;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 }

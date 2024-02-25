@@ -2,10 +2,13 @@ package collections.co.edu.uniquindio.estructura.datos.tienda.controller;
 
 import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.ClienteException;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ClienteDto;
+import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ProductoDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.mappers.TiendaMapper;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Cliente;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Tienda;
+import collections.co.edu.uniquindio.estructura.datos.tienda.utils.Persistencia;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,11 +30,19 @@ public class ModelFactoryController {
 
     public ModelFactoryController() {
 
-    }
+        cargarDatosDesdeArchivos();
 
+        if(tienda == null){
+            cargarDatosDesdeArchivos();
+        }
+    }
 
     public HashMap<String, ClienteDto> obtenerClientes() {
         return  mapper.getClienteDto(getTienda().getListaClientes());
+    }
+
+    public HashMap<String, ProductoDto> obtenerProductos() {
+        return  mapper.getProductoDto(getTienda().getListaProductos());
     }
 
     public boolean agregarCliente(ClienteDto clienteDto) {
@@ -46,8 +57,16 @@ public class ModelFactoryController {
             return false;
         }
     }
-
     public Tienda getTienda() {
         return tienda;
+    }
+
+    private void cargarDatosDesdeArchivos() {
+        tienda = new Tienda();
+        try {
+            Persistencia.cargarDatosArchivos(tienda);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

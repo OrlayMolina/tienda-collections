@@ -10,11 +10,7 @@ public class Tienda {
     private String nombre;
     private String nit;
     private HashMap<String, Cliente> listaClientes = new HashMap<>();
-
-    public Tienda(String nombre, String nit) {
-        this.nombre = nombre;
-        this.nit = nit;
-    }
+    private HashMap<String, Producto> listaProductos = new HashMap<>();
 
     public Tienda(){
 
@@ -38,6 +34,10 @@ public class Tienda {
 
     public HashMap<String, Cliente> getListaClientes() {
         return listaClientes;
+    }
+
+    public HashMap<String, Producto> getListaProductos() {
+        return listaProductos;
     }
     public String getNombre() {
         return nombre;

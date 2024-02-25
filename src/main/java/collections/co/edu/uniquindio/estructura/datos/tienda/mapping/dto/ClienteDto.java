@@ -5,4 +5,9 @@ public record ClienteDto(
         String nombre,
         String apellido,
         String direccion) {
+
+    @Override
+    public String toString() {
+        return numeroIdentificacion + " " + "-" +  " " + nombre + " " + apellido;
+    }
 }

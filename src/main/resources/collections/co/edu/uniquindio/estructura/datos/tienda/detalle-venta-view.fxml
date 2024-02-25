@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collections.co.edu.uniquindio.estructura.datos.tienda.viewController.DetalleVentaViewController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="60.0" layoutX="6.0" layoutY="107.0" stroke="#aeaeae" strokeType="INSIDE" width="589.0" />
@@ -31,10 +30,10 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="108.0" prefWidth="100.0" styleClass="primary" text="Agregar " />
-            <Button mnemonicParsing="false" prefHeight="117.0" prefWidth="100.0" styleClass="primary" text="Editar" GridPane.columnIndex="2" />
-            <Button mnemonicParsing="false" prefHeight="122.0" prefWidth="100.0" styleClass="primary" text="Eliminar" GridPane.columnIndex="4" />
-            <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="162.0" styleClass="info" text="Agregar Carrito" GridPane.columnIndex="6" />
+            <Button fx:id="btnAgregarDetalle" mnemonicParsing="false" onAction="#agregarDetalle" prefHeight="108.0" prefWidth="100.0" styleClass="primary" text="Agregar " />
+            <Button fx:id="btnEditarDetalle" mnemonicParsing="false" onAction="#editarDetalle" prefHeight="117.0" prefWidth="100.0" styleClass="primary" text="Editar" GridPane.columnIndex="2" />
+            <Button fx:id="btnEliminarDetalle" mnemonicParsing="false" onAction="#eliminarDetalle" prefHeight="122.0" prefWidth="100.0" styleClass="primary" text="Eliminar" GridPane.columnIndex="4" />
+            <Button fx:id="btnAgregarCarrito" mnemonicParsing="false" onAction="#agregarCarritoCliente" prefHeight="32.0" prefWidth="162.0" styleClass="info" text="Agregar Carrito" GridPane.columnIndex="6" />
          </children>
       </GridPane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="88.0" layoutX="7.0" layoutY="12.0" stroke="#aeaeae" strokeType="INSIDE" width="589.0" />
@@ -52,18 +51,19 @@
           <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ComboBox prefHeight="25.0" prefWidth="340.0" promptText="Lista de Productos" GridPane.rowIndex="2" />
+            <ComboBox fx:id="cmbProductos" prefHeight="25.0" prefWidth="340.0" promptText="Lista de Productos" GridPane.rowIndex="2" />
             <Label text="Productos:" />
             <Label text="Cantidad:" GridPane.columnIndex="2" />
             <Label text="Subtotal:" GridPane.columnIndex="4" />
-            <TextField prefHeight="45.0" prefWidth="100.0" promptText="Cantidad ..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <TextField prefHeight="60.0" prefWidth="110.0" promptText="Subtotal..." GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <TextField fx:id="txfCantidad" prefHeight="45.0" prefWidth="100.0" promptText="Cantidad ..." GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="txfSubtotal" prefHeight="60.0" prefWidth="110.0" promptText="Subtotal..." GridPane.columnIndex="4" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <TableView layoutX="8.0" layoutY="176.0" prefHeight="172.0" prefWidth="587.0">
+      <TableView fx:id="tableDetalles" layoutX="8.0" layoutY="176.0" prefHeight="172.0" prefWidth="587.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="colProducto" prefWidth="253.0" text="Producto Seleccionado" />
+          <TableColumn fx:id="colCantidad" prefWidth="131.0" text="Cantidad" />
+            <TableColumn fx:id="colSubtotal" prefWidth="202.0" text="Subtotal" />
         </columns>
       </TableView>
       <GridPane layoutX="343.0" layoutY="359.0">
@@ -76,8 +76,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="100.0" styleClass="warning" text="Cancelar" />
-            <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" styleClass="success" text="Aceptar" GridPane.columnIndex="2" />
+            <Button fx:id="btnCancelarDetalle" mnemonicParsing="false" onAction="#cancelar" prefHeight="46.0" prefWidth="100.0" styleClass="warning" text="Cancelar" />
+            <Button fx:id="btnAceptarDetalle" mnemonicParsing="false" onAction="#aceptarDetalle" prefHeight="60.0" prefWidth="100.0" styleClass="success" text="Aceptar" GridPane.columnIndex="2" />
          </children>
       </GridPane>
    </children>

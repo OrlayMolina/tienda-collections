@@ -19,8 +19,7 @@ public class ClienteViewController {
 
     Tienda tienda;
     ClienteController clienteControllerService;
-    HashMap<String, ClienteDto> mapClientes = new HashMap<>();
-    ObservableList<ClienteDto> listaClientes = FXCollections.observableArrayList(mapClientes.values());
+    ObservableList<ClienteDto> listaClientes = FXCollections.observableArrayList();
     ClienteDto clienteDtoSeleccionado;
 
     @FXML
@@ -96,7 +95,7 @@ public class ClienteViewController {
     private void initView() {
         initDataBinding();
         obtenerClientes();
-        tableClientes.getItems().clear();
+        listaClientes.clear();
         tableClientes.setItems(listaClientes);
         listenerSelection();
     }
@@ -133,9 +132,9 @@ public class ClienteViewController {
     }
 
     private void obtenerClientes() {
-        Collection<ClienteDto> valoresClientes = mapClientes.values();
+        HashMap<String, ClienteDto> clientes = clienteControllerService.obtenerClientes();
         listaClientes.clear();
-        listaClientes.addAll(valoresClientes);
+        listaClientes.addAll(clientes.values());
     }
 
     private void limpiarCamposClientes() {
