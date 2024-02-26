@@ -143,12 +143,14 @@ public class ClienteViewController {
     }
 
     private void eliminarCliente() {
+        boolean clienteEliminado = false;
         if (clienteDtoSeleccionado != null) {
             if (mostrarMensajeConfirmacion("¿Estás seguro de eliminar al cliente?")) {
-                boolean clienteEliminado = clienteControllerService.eliminarCliente(clienteDtoSeleccionado.numeroIdentificacion());
+                clienteEliminado = clienteControllerService.eliminarCliente(clienteDtoSeleccionado.numeroIdentificacion());
                 if (clienteEliminado) {
                     listaClientes.remove(clienteDtoSeleccionado);
-                    tableClientes.getItems().remove(clienteDtoSeleccionado);
+                    clienteDtoSeleccionado = null;
+                    tableClientes.getSelectionModel().clearSelection();
                     limpiarCamposClientes();
                     mostrarMensaje("Notificación cliente", "Cliente eliminado", "El cliente se ha eliminado con éxito.", Alert.AlertType.INFORMATION);
                 } else {
