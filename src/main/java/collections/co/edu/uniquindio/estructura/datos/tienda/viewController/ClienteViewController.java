@@ -4,6 +4,7 @@ import collections.co.edu.uniquindio.estructura.datos.tienda.controller.ClienteC
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ClienteDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Cliente;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Tienda;
+import collections.co.edu.uniquindio.estructura.datos.tienda.utils.ClienteUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.control.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class ClienteViewController {
 
@@ -66,12 +68,16 @@ public class ClienteViewController {
 
     @FXML
     void buscarCliente(ActionEvent event) {
-
+        String cedula = txfNumeroIdentificacion.getText();
+        String nombres = txfNombres.getText();
+        String apellidos = txfApellidos.getText();
+        String direccion = txfDireccion.getText();
+        buscarCliente(cedula, nombres, apellidos, direccion);
     }
 
     @FXML
     void cancelarFiltro(ActionEvent event) {
-
+        limpiarCamposClientes();
     }
 
     @FXML
@@ -81,7 +87,12 @@ public class ClienteViewController {
 
     @FXML
     void editarCliente(ActionEvent event) {
+        actualizarCliente();
+    }
 
+    @FXML
+    void eliminarCliente(ActionEvent event) {
+        eliminarCliente();
     }
 
     @FXML
@@ -131,6 +142,54 @@ public class ClienteViewController {
 
     }
 
+    private void eliminarCliente() {
+        if (clienteDtoSeleccionado != null) {
+            if (mostrarMensajeConfirmacion("¿Estás seguro de eliminar al cliente?")) {
+                boolean clienteEliminado = clienteControllerService.eliminarCliente(clienteDtoSeleccionado.numeroIdentificacion());
+                if (clienteEliminado) {
+                    listaClientes.remove(clienteDtoSeleccionado);
+                    tableClientes.getItems().remove(clienteDtoSeleccionado);
+                    limpiarCamposClientes();
+                    mostrarMensaje("Notificación cliente", "Cliente eliminado", "El cliente se ha eliminado con éxito.", Alert.AlertType.INFORMATION);
+                } else {
+                    mostrarMensaje("Notificación cliente", "Error al eliminar", "Ocurrió un error al intentar eliminar el cliente.", Alert.AlertType.ERROR);
+                }
+            } else {
+                mostrarMensaje("Notificación cliente", "Eliminación cancelada", "No se ha eliminado el cliente.", Alert.AlertType.INFORMATION);
+            }
+        } else {
+            mostrarMensaje("Notificación cliente", "Cliente no seleccionado", "Por favor, selecciona un cliente antes de eliminar.", Alert.AlertType.WARNING);
+        }
+    }
+
+
+    private void actualizarCliente() {
+        String numeroIdentificacion = clienteDtoSeleccionado.numeroIdentificacion();
+        ClienteDto clienteDto = construirClienteDto();
+
+        if (datosValidos(clienteDto)) {
+            boolean clienteActualizado = clienteControllerService.actualizarCliente(numeroIdentificacion, clienteDto);
+            if (clienteActualizado) {
+                listaClientes.remove(clienteDtoSeleccionado);
+                listaClientes.add(clienteDto);
+                tableClientes.refresh();
+                mostrarMensaje("Notificación cliente", "Cliente actualizado", "El Cliente se ha actualizado con éxito.", Alert.AlertType.INFORMATION);
+                limpiarCamposClientes();
+            } else {
+                mostrarMensaje("Notificación cliente", "Cliente no actualizado", "El Cliente no se ha actualizado con éxito", Alert.AlertType.INFORMATION);
+            }
+        } else {
+            mostrarMensaje("Notificación cliente", "Cliente no creado", "La información del cliente es inválida", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void buscarCliente(String numeroIdentificacion, String nombres, String apellidos,
+                                  String direccion) {
+
+        Predicate<ClienteDto> predicado = ClienteUtil.buscarPorTodo(numeroIdentificacion, nombres, apellidos, direccion);
+        ObservableList<ClienteDto> anunciantesFiltrados = listaClientes.filtered(predicado);
+        tableClientes.setItems(anunciantesFiltrados);
+    }
     private void obtenerClientes() {
         HashMap<String, ClienteDto> clientes = clienteControllerService.obtenerClientes();
         listaClientes.clear();

@@ -49,8 +49,8 @@ public class Persistencia {
      */
     public static HashMap<String, Producto> cargarProductos() throws FileNotFoundException, IOException {
         HashMap<String, Producto> productos = new HashMap<>();
-        ArrayList<String> contenido = ArchivoUtil.leerArchivo(RUTA_ARCHIVO_PRODUCTOS);
-        for (String linea : contenido) {
+        HashMap<Integer, String> contenido = ArchivoUtil.leerArchivo(RUTA_ARCHIVO_PRODUCTOS);
+        for (String linea : contenido.values()) {
             String[] partes = linea.split("@@");
             if (partes.length >= 4) {
                 Producto producto = new Producto();
@@ -58,6 +58,7 @@ public class Persistencia {
                 producto.setNombre(partes[1]);
                 producto.setPrecio(Integer.valueOf(partes[2]));
                 producto.setCantidad(Integer.valueOf(partes[3]));
+                productos.put(producto.getCodigo(), producto);
             }
         }
         return productos;

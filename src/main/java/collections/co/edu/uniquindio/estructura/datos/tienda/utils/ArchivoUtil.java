@@ -6,6 +6,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,15 +39,14 @@ public class ArchivoUtil {
      * @return
      * @throws IOException
      */
-    public static ArrayList<String> leerArchivo(String ruta) throws IOException {
-
-        ArrayList<String>  contenido = new ArrayList<String>();
-        FileReader fr=new FileReader(ruta);
-        BufferedReader bfr=new BufferedReader(fr);
-        String linea="";
-        while((linea = bfr.readLine())!=null)
-        {
-            contenido.add(linea);
+    public static HashMap<Integer, String> leerArchivo(String ruta) throws IOException {
+        HashMap<Integer, String> contenido = new HashMap<>();
+        FileReader fr = new FileReader(ruta);
+        BufferedReader bfr = new BufferedReader(fr);
+        String linea;
+        int indice = 0;
+        while ((linea = bfr.readLine()) != null) {
+            contenido.put(indice++, linea);
         }
         bfr.close();
         fr.close();

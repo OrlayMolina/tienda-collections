@@ -4,6 +4,7 @@ import collections.co.edu.uniquindio.estructura.datos.tienda.controller.ClienteC
 import collections.co.edu.uniquindio.estructura.datos.tienda.controller.DetalleVentaController;
 import collections.co.edu.uniquindio.estructura.datos.tienda.controller.VentaController;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ClienteDto;
+import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.DetalleVentaDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ProductoDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Tienda;
 import javafx.collections.FXCollections;
@@ -47,16 +48,16 @@ public class DetalleVentaViewController {
     private ComboBox<ProductoDto> cmbProductos;
 
     @FXML
-    private TableColumn<?, ?> colCantidad;
+    private TableColumn<DetalleVentaDto, String> colCantidad;
 
     @FXML
-    private TableColumn<?, ?> colProducto;
+    private TableColumn<DetalleVentaDto, String> colProducto;
 
     @FXML
-    private TableColumn<?, ?> colSubtotal;
+    private TableColumn<DetalleVentaDto, String> colSubtotal;
 
     @FXML
-    private TableView<?> tableDetalles;
+    private TableView<DetalleVentaDto> tableDetalles;
 
     @FXML
     private TextField txfCantidad;

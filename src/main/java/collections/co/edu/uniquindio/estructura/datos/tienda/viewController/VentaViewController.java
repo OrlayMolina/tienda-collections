@@ -87,7 +87,7 @@ public class VentaViewController {
 
     @FXML
     void cancelarFiltro(ActionEvent event) {
-
+        recargarInformacion();
     }
 
     @FXML
@@ -134,7 +134,12 @@ public class VentaViewController {
         HashMap<String, ClienteDto> clientes = ventaControllerService.obtenerClientes();
         listaClientes.clear();
         listaClientes.addAll(clientes.values());
-        listaClientes.add(new ClienteDto("1094952205", "Orlay Andrés", "Molina Gómez", "Mza 2 casa 24, Los Quindos"));
+    }
+
+    public void recargarInformacion(){
+        tableVenta.getItems().clear();
+        obtenerClientes();
+        tableVenta.setItems(listaVentasDto);
     }
 
 }

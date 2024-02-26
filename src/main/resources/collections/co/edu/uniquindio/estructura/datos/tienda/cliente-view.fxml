@@ -74,9 +74,9 @@
         </rowConstraints>
          <children>
             <Button fx:id="btnCrearCliente" mnemonicParsing="false" onAction="#crearCliente" prefHeight="32.0" prefWidth="108.0" styleClass="primary" text="Crear" />
-            <Button fx:id="btnEditarCliente" mnemonicParsing="false" onAction="#editarCliente" prefHeight="32.0" prefWidth="174.0" styleClass="primary" text="Editar" GridPane.columnIndex="2" />
+            <Button fx:id="btnEditarCliente" mnemonicParsing="false" onAction="#editarCliente" prefHeight="32.0" prefWidth="174.0" styleClass="primary" text="Actualizar" GridPane.columnIndex="2" />
             <Button fx:id="btnBuscarCliente" mnemonicParsing="false" onAction="#buscarCliente" prefHeight="32.0" prefWidth="151.0" styleClass="primary" text="Buscar" GridPane.columnIndex="4" />
-            <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#buscarCliente" prefHeight="32.0" prefWidth="188.0" styleClass="primary" text="Eliminar" GridPane.columnIndex="6" />
+            <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="32.0" prefWidth="188.0" styleClass="primary" text="Eliminar" GridPane.columnIndex="6" />
             <Button fx:id="btnCancelarFiltro" mnemonicParsing="false" onAction="#cancelarFiltro" prefHeight="32.0" prefWidth="135.0" styleClass="primary" text="Cancelar Filtro" GridPane.columnIndex="8" />
          </children>
       </GridPane>

@@ -57,6 +57,28 @@ public class ModelFactoryController {
             return false;
         }
     }
+
+    public boolean actualizarCliente(String numeroIdentificacion, ClienteDto clienteDto) {
+        try {
+            Cliente cliente = mapper.clienteDtoToCliente(clienteDto);
+            getTienda().actualizarCliente(numeroIdentificacion, cliente);
+            return true;
+        } catch (ClienteException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminarCliente(String cedula) {
+        boolean flagExiste = false;
+        try {
+            flagExiste = getTienda().eliminarCliente(cedula);
+        } catch (ClienteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return flagExiste;
+    }
     public Tienda getTienda() {
         return tienda;
     }

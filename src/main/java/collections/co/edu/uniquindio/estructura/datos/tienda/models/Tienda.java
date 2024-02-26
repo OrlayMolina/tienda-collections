@@ -20,6 +20,34 @@ public class Tienda {
         getListaClientes().put(nuevoCliente.getNumeroIdentificacion(), nuevoCliente);
     }
 
+    public boolean actualizarCliente(String numeroIdentificacion, Cliente cliente) throws ClienteException {
+        Cliente clienteActual = obtenerCliente(numeroIdentificacion);
+        if (clienteActual == null) {
+            throw new ClienteException("El Cliente a actualizar no existe");
+        } else {
+            clienteActual.setNumeroIdentificacion(cliente.getNumeroIdentificacion());
+            clienteActual.setNombre(cliente.getNombre());
+            clienteActual.setApellido(cliente.getApellido());
+            clienteActual.setDireccion(cliente.getDireccion());
+            return true;
+        }
+    }
+
+
+    public boolean eliminarCliente(String cedula) throws ClienteException {
+        Cliente cliente = obtenerCliente(cedula);
+        if (cliente == null) {
+            throw new ClienteException("El Cliente a eliminar no existe");
+        } else {
+            listaClientes.remove(cedula);
+            return true;
+        }
+    }
+
+    public Cliente obtenerCliente(String numeroIdentificacion) {
+        return listaClientes.get(numeroIdentificacion);
+    }
+
     public boolean verificarClienteExistente(String numeroIdentificacion) throws ClienteException {
         if(clienteExiste(numeroIdentificacion)){
             throw new ClienteException("El cliente con documento: "+numeroIdentificacion+" ya existe");
