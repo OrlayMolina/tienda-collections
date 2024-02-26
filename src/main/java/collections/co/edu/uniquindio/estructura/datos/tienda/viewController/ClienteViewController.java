@@ -77,7 +77,7 @@ public class ClienteViewController {
 
     @FXML
     void cancelarFiltro(ActionEvent event) {
-        limpiarCamposClientes();
+        cancelarBusqueda();
     }
 
     @FXML
@@ -194,6 +194,13 @@ public class ClienteViewController {
         HashMap<String, ClienteDto> clientes = clienteControllerService.obtenerClientes();
         listaClientes.clear();
         listaClientes.addAll(clientes.values());
+    }
+
+    private void cancelarBusqueda(){
+        limpiarCamposClientes();
+        tableClientes.getSelectionModel().clearSelection();
+        tableClientes.setItems(listaClientes);
+        listenerSelection();
     }
 
     private void limpiarCamposClientes() {
