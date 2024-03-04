@@ -2,13 +2,16 @@ package collections.co.edu.uniquindio.estructura.datos.tienda.controller;
 
 import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.ClienteException;
 import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.DetalleVentaException;
+import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.VentaException;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ClienteDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.DetalleVentaDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ProductoDto;
+import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.VentaDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.mappers.TiendaMapper;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Cliente;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.DetalleVenta;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Tienda;
+import collections.co.edu.uniquindio.estructura.datos.tienda.models.Venta;
 import collections.co.edu.uniquindio.estructura.datos.tienda.utils.Persistencia;
 
 import java.io.IOException;
@@ -73,6 +76,19 @@ public class ModelFactoryController {
             }
             return true;
         }catch (DetalleVentaException e){
+            e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean agregarVenta(VentaDto ventaDto) {
+        try{
+            if(!tienda.verificarVentaExistente(ventaDto.codigo())) {
+                Venta venta = mapper.ventaDtoToVenta(ventaDto);
+                getTienda().agregarVenta(venta);
+            }
+            return true;
+        }catch (VentaException e){
             e.getMessage();
             return false;
         }

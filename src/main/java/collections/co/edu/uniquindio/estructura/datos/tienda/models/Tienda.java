@@ -2,6 +2,7 @@ package collections.co.edu.uniquindio.estructura.datos.tienda.models;
 
 import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.ClienteException;
 import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.DetalleVentaException;
+import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.VentaException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class Tienda {
     private HashMap<String, Cliente> listaClientes = new HashMap<>();
     private HashMap<String, Producto> listaProductos = new HashMap<>();
     private ArrayList<DetalleVenta> listaDetalleVenta = new ArrayList<>();
+    private ArrayList<Venta> listaVenta = new ArrayList<>();
 
     public Tienda(){
 
@@ -24,6 +26,10 @@ public class Tienda {
 
     public void agregarDetalleVenta(DetalleVenta nuevoDetalleVenta) throws DetalleVentaException {
         getListaDetalleVentas().add(nuevoDetalleVenta);
+    }
+
+    public void agregarVenta(Venta nuevoVenta) throws VentaException {
+        getListaVentas().add(nuevoVenta);
     }
 
     public boolean actualizarCliente(String numeroIdentificacion, Cliente cliente) throws ClienteException {
@@ -70,6 +76,14 @@ public class Tienda {
         }
     }
 
+    public boolean verificarVentaExistente(String codigo) throws VentaException {
+        if(ventaExiste(codigo)){
+            throw new VentaException("El producto con codigo: "+codigo+" ya existe");
+        }else{
+            return false;
+        }
+    }
+
     public boolean clienteExiste(String numeroIdentificacion) {
         return listaClientes.containsKey(numeroIdentificacion);
     }
@@ -85,6 +99,17 @@ public class Tienda {
         return detalleEncontrado;
     }
 
+    public boolean ventaExiste(String codigo) {
+        boolean ventaEncontrado = false;
+        for (Venta venta : getListaVentas()) {
+            if(venta.getCodigo().equalsIgnoreCase(codigo)){
+                ventaEncontrado = true;
+                break;
+            }
+        }
+        return ventaEncontrado;
+    }
+
     public HashMap<String, Cliente> getListaClientes() {
         return listaClientes;
     }
@@ -95,6 +120,10 @@ public class Tienda {
 
     public ArrayList<DetalleVenta> getListaDetalleVentas() {
         return listaDetalleVenta;
+    }
+
+    public ArrayList<Venta> getListaVentas() {
+        return listaVenta;
     }
     public String getNombre() {
         return nombre;
