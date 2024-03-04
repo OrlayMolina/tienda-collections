@@ -6,4 +6,6 @@ public record DetalleVentaDto(
         Integer cantidad,
         Integer subtotal,
         ProductoDto producto) {
+
+
 }

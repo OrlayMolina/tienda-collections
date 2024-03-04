@@ -1,10 +1,13 @@
 package collections.co.edu.uniquindio.estructura.datos.tienda.controller;
 
 import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.ClienteException;
+import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.DetalleVentaException;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ClienteDto;
+import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.DetalleVentaDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ProductoDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.mappers.TiendaMapper;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Cliente;
+import collections.co.edu.uniquindio.estructura.datos.tienda.models.DetalleVenta;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Tienda;
 import collections.co.edu.uniquindio.estructura.datos.tienda.utils.Persistencia;
 
@@ -45,6 +48,10 @@ public class ModelFactoryController {
         return  mapper.getProductoDto(getTienda().getListaProductos());
     }
 
+    public List<DetalleVentaDto> obtenerDetallesVenta() {
+        return  mapper.getDetalleVentaDto(tienda.getListaDetalleVentas());
+    }
+
     public boolean agregarCliente(ClienteDto clienteDto) {
         try{
             if(!tienda.verificarClienteExistente(clienteDto.numeroIdentificacion())) {
@@ -53,6 +60,19 @@ public class ModelFactoryController {
             }
             return true;
         }catch (ClienteException e){
+            e.getMessage();
+            return false;
+        }
+    }
+
+    public boolean agregarDetalleVenta(DetalleVentaDto detalleVentaDto) {
+        try{
+            if(!tienda.verificarDetalleVentaExistente(detalleVentaDto.producto().codigo())) {
+                DetalleVenta detalleVenta = mapper.detalleVentaDtoToDetalleVenta(detalleVentaDto);
+                getTienda().agregarDetalleVenta(detalleVenta);
+            }
+            return true;
+        }catch (DetalleVentaException e){
             e.getMessage();
             return false;
         }
