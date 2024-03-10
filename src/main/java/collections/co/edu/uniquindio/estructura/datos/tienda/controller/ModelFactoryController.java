@@ -16,6 +16,7 @@ import collections.co.edu.uniquindio.estructura.datos.tienda.utils.Persistencia;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ModelFactoryController {
@@ -49,6 +50,24 @@ public class ModelFactoryController {
 
     public HashMap<String, ProductoDto> obtenerProductos() {
         return  mapper.getProductoDto(getTienda().getListaProductos());
+    }
+
+    public LinkedList<VentaDto> obtenerVentas() {
+        return  mapper.getVentaHistorialDto(tienda.getListaHistorialVentas());
+    }
+
+    public boolean agregarHistorialVentas(VentaDto ventaDto) {
+        try{
+            if(!tienda.verificarVentaExistente(ventaDto.codigo())) {
+                Venta venta = mapper.ventaDtoToVenta(ventaDto);
+                getTienda().agregarHistorialVentas(venta);
+            }
+            return true;
+        }catch (VentaException e){
+            e.getMessage();
+            return false;
+        }
+
     }
 
     public List<DetalleVentaDto> obtenerDetallesVenta() {

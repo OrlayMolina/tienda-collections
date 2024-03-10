@@ -26,4 +26,8 @@ public class VentaController {
     public HashMap<String, ClienteDto> obtenerClientes() {
         return modelFactoryController.obtenerClientes();
     }
+
+    public boolean agregarHistorialVentas(VentaDto ventaDto) {
+        return modelFactoryController.agregarHistorialVentas(ventaDto);
+    }
 }

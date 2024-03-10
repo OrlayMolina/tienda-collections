@@ -14,6 +14,7 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @Mapper
@@ -42,6 +43,9 @@ public interface TiendaMapper {
 
     @IterableMapping(qualifiedByName = "ventaToVentaDto")
     List<VentaDto> getVentaDto(List<Venta> listaVentas);
+
+    @IterableMapping(qualifiedByName = "ventaToVentaDto")
+    LinkedList<VentaDto> getVentaHistorialDto(LinkedList<Venta> listaVentas);
 
     @Named("detalleVentaToDetalleVentaDto")
     DetalleVentaDto detalleVentaToDetalleVentaDto(DetalleVenta detalleVenta);

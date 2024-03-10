@@ -161,11 +161,12 @@ public class DetalleVentaViewController {
     }
 
     private DetalleVentaDto construirDetalleVentaDto() {
+        String codigo = "";
         ProductoDto productodto = cmbProductos.getValue();
         Integer cantidad = Integer.valueOf(txfCantidad.getText());
         Integer subtotal = productodto.precio() * cantidad;
         txfSubtotal.setText(String.valueOf(subtotal));
-        return new DetalleVentaDto( cantidad, subtotal, productodto);
+        return new DetalleVentaDto( codigo, cantidad, subtotal, productodto);
     }
 
     private void limpiarCamposDetalle() {

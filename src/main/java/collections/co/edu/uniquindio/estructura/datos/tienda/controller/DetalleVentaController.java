@@ -3,6 +3,7 @@ package collections.co.edu.uniquindio.estructura.datos.tienda.controller;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ClienteDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.DetalleVentaDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ProductoDto;
+import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.VentaDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;

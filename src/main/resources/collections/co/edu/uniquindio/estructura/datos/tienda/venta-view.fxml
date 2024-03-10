@@ -20,7 +20,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="788.0" stylesheets="@css/tema.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="collections.co.edu.uniquindio.estructura.datos.tienda.viewController.VentaViewController">
    <top>
       <Pane prefHeight="78.0" prefWidth="788.0" BorderPane.alignment="CENTER">

@@ -6,6 +6,7 @@ import collections.co.edu.uniquindio.estructura.datos.tienda.exceptions.VentaExc
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Tienda {
 
@@ -14,9 +15,24 @@ public class Tienda {
     private HashMap<String, Cliente> listaClientes = new HashMap<>();
     private HashMap<String, Producto> listaProductos = new HashMap<>();
     private ArrayList<DetalleVenta> listaDetalleVenta = new ArrayList<>();
+
+    private LinkedList<Venta> listaVentas = new LinkedList<>();
     private ArrayList<Venta> listaVenta = new ArrayList<>();
 
     public Tienda(){
+
+    }
+
+    public void agregarHistorialVentas(Venta ventaHistorial) throws VentaException{
+        String fechaNuevaVenta = ventaHistorial.getFecha();
+
+        int indice = 0;
+        while (indice < getListaHistorialVentas().size() &&
+                fechaNuevaVenta.compareTo(getListaHistorialVentas().get(indice).getFecha()) > 0) {
+            indice++;
+        }
+
+        getListaHistorialVentas().add(indice, ventaHistorial);
 
     }
 
@@ -120,6 +136,10 @@ public class Tienda {
 
     public ArrayList<DetalleVenta> getListaDetalleVentas() {
         return listaDetalleVenta;
+    }
+
+    public LinkedList<Venta> getListaHistorialVentas() {
+        return listaVentas;
     }
 
     public ArrayList<Venta> getListaVentas() {

@@ -8,6 +8,7 @@ import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.Detalle
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.ProductoDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.mapping.dto.VentaDto;
 import collections.co.edu.uniquindio.estructura.datos.tienda.models.Tienda;
+import collections.co.edu.uniquindio.estructura.datos.tienda.utils.VentaUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,9 +17,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class VentaViewController {
 
@@ -109,7 +110,7 @@ public class VentaViewController {
 
     @FXML
     void agregarCarritoCliente(ActionEvent event) {
-
+        imprimirDetallesCarrito();
     }
 
     @FXML
@@ -215,6 +216,10 @@ public class VentaViewController {
         if(ventaDtoSeleccionado != null){
             txfCodigo.setText(ventaDtoSeleccionado.codigo());
             txfFechaVenta.setText(ventaDtoSeleccionado.fecha());
+            cmbListaClientes.setValue(ventaDtoSeleccionado.cliente());
+            listaDetalles.clear();
+            listaDetalles.addAll(ventaDtoSeleccionado.detalleVentas());
+            tableDetalles.setItems(listaDetalles);
         }
     }
 
@@ -250,9 +255,11 @@ public class VentaViewController {
             VentaDto ventaDto = construirVentaDto();
             if(datosValidosVenta(ventaDto)){
                 if(ventaControllerService.agregarVenta(ventaDto)){
+                    ventaControllerService.agregarHistorialVentas(ventaDto);
                     listaVentasDto.add(ventaDto);
                     limpiarCamposVenta();
                     tableVenta.refresh();
+                    listaDetalles.clear();
 
                 }else{
                     mostrarMensaje("Notificación detalle de venta", "Detalle de venta no creado", "El Detalle de venta no se fue creado", Alert.AlertType.ERROR);
@@ -267,6 +274,10 @@ public class VentaViewController {
     }
 
     private VentaDto construirVentaDto() {
+
+        if(txfCodigo.getText().isEmpty()){
+            txfCodigo.setText(UUID.randomUUID().toString());
+        }
         String codigo = txfCodigo.getText();
         String fecha =  txfFechaVenta.getText();
         Integer total = Integer.valueOf(txfTotalVenta.getText());
@@ -278,6 +289,8 @@ public class VentaViewController {
 
     private void limpiarCamposVenta() {
         txfCantidad.setText("");
+        cmbListaClientes.setValue(null);
+        txfCantidadProductos.setText("");
         txfCodigo.setText("");
         txfTotalVenta.setText("");
         txfFechaVenta.setText("");
@@ -317,11 +330,16 @@ public class VentaViewController {
     }
 
     private DetalleVentaDto construirDetalleVentaDto() {
+
+        if(txfCodigo.getText().isEmpty()){
+            txfCodigo.setText(UUID.randomUUID().toString());
+        }
+        String codigo = txfCodigo.getText();
         ProductoDto productodto = cmbProductos.getValue();
         Integer cantidad = Integer.valueOf(txfCantidad.getText());
         Integer subtotal = productodto.precio() * cantidad;
         txfSubtotal.setText(String.valueOf(subtotal));
-        return new DetalleVentaDto( cantidad, subtotal, productodto);
+        return new DetalleVentaDto( codigo, cantidad, subtotal, productodto);
     }
 
     private void limpiarCamposDetalle() {
@@ -331,14 +349,16 @@ public class VentaViewController {
     }
 
     private void mostrarInformacionDetalle(DetalleVentaDto detalleVentaDtoSeleccionado) {
-        if(detalleVentaDtoSeleccionado != null){
-            cmbProductos.setValue(detalleVentaDtoSeleccionado.producto());
-            txfCantidad.setText(detalleVentaDtoSeleccionado.cantidad().toString());
-            txfSubtotal.setText(detalleVentaDtoSeleccionado.subtotal().toString());
+        if (detalleVentaDtoSeleccionado != null && ventaDtoSeleccionado != null) {
+            String codigoVentaSeleccionada = ventaDtoSeleccionado.codigo();
 
+            Predicate<DetalleVentaDto> predicado = VentaUtil.buscarPorCodigo(codigoVentaSeleccionada);
+            ObservableList<DetalleVentaDto> detallesFiltrados = listaDetalles.filtered(predicado);
+            tableDetalles.setItems(detallesFiltrados);
 
         }
     }
+
 
     private boolean datosValidos(DetalleVentaDto detalleVentaDto) {
         String mensaje = "";
@@ -355,6 +375,41 @@ public class VentaViewController {
         }else{
             System.out.print("Comprador no creado");
             return false;
+        }
+    }
+
+    private void imprimirDetallesCarrito() {
+        if (!listaDetalles.isEmpty()) {
+            HashSet<String> codigosProductos = new HashSet<>();
+
+            int totalPagar = 0;
+            StringBuilder cadena = new StringBuilder("DETALLES DEL CARRITO DE COMPRAS:\n");
+
+            for (DetalleVentaDto detalle : listaDetalles) {
+                ProductoDto producto = detalle.producto();
+                int subtotal = detalle.subtotal();
+                totalPagar += subtotal;
+
+                codigosProductos.add(producto.codigo());
+
+                cadena.append("Código: ").append(producto.codigo()).append("\t");
+                cadena.append("Nombre: ").append(producto.nombre()).append("\t");
+                cadena.append("Precio: ").append(producto.precio()).append("\t");
+                cadena.append("Cantidad: ").append(detalle.cantidad()).append("\t");
+                cadena.append("Subtotal: ").append(subtotal).append("\n");
+            }
+
+
+            cadena.append("\nTOTAL A PAGAR: ").append(totalPagar);
+
+
+            cadena.append("\nCÓDIGOS DE PRODUCTOS SELECCIONADOS: ").append(codigosProductos);
+
+            System.out.println(cadena.toString());
+
+        } else {
+            // Si no hay detalles de venta seleccionados, mostramos un mensaje de error
+            mostrarMensaje("Error", "EL CARRITO ESTA VACIO", "Por favor, seleccione algun producto", Alert.AlertType.ERROR);
         }
     }
 

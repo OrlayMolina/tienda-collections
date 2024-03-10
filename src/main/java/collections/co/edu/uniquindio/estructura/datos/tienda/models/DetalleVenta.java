@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class DetalleVenta {
 
+    private String codigo;
     private Producto producto;
     private Integer cantidad;
     private Integer subtotal;
@@ -11,6 +12,14 @@ public class DetalleVenta {
     public DetalleVenta()
     {
 
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public Integer getCantidad() {
